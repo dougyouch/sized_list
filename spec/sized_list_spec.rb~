@@ -1,0 +1,6 @@
+require 'spec_helper'
+
+describe SizedList do
+  it "should not fail" do
+  end
+end
