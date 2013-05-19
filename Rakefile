@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "sized_list"
   gem.homepage = "http://github.com/dyouch5@yahoo.com/sized_list"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Limited size list}
+  gem.description = %Q{Uses LRU functionality to keep a limited size list of items}
   gem.email = "doug@sessionm.com"
   gem.authors = ["Doug Youch"]
   # dependencies defined in Gemfile
