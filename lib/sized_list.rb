@@ -43,6 +43,11 @@ class SizedList
     @items.values
   end
 
+  def exist?(key)
+    @items.has_key? key
+  end
+  alias exists? exist?
+
   private
 
   def used!(key)
