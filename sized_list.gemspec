@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Doug Youch"]
-  s.date = "2013-05-19"
+  s.date = "2013-05-20"
   s.description = "Uses LRU functionality to keep a limited size list of items"
   s.email = "doug@sessionm.com"
   s.extra_rdoc_files = [
@@ -24,7 +24,9 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "lib/active_support/cache/lru.rb",
     "lib/sized_list.rb",
+    "sized_list.gemspec",
     "spec/sized_list_spec.rb",
     "spec/spec_helper.rb"
   ]
