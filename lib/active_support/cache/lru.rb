@@ -58,10 +58,12 @@ module ActiveSupport
       def write(name, value, options=nil)
         instrument(:write, name, options) do |payload|
           @sized_list[name] = value
-          payload[:eviction] = @sized_list.evicted?
-          payload[:total_evictions] = @sized_list.evictions
-          payload[:eviction_frequency] = @sized_list.eviction_frequency
-          payload[:last_time_between_evictions] = @sized_list.last_time_between_evictions
+          if payload
+            payload[:eviction] = @sized_list.evicted?
+            payload[:total_evictions] = @sized_list.evictions
+            payload[:eviction_frequency] = @sized_list.eviction_frequency
+            payload[:last_time_between_evictions] = @sized_list.last_time_between_evictions
+          end
         end
       end
 
