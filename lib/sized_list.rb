@@ -9,7 +9,8 @@ class SizedList
   attr_reader :hits,
               :misses,
               :writes,
-              :evictions
+              :evictions,
+              :last_time_between_evictions
 
   def initialize(max_size)
     @max_size = max_size
@@ -24,6 +25,7 @@ class SizedList
     @writes = 0
     @evictions = 0
     @total_eviction_time = 0.0
+    @last_time_between_evictions = 0.0
     @last_evicted_at = nil
   end
 
@@ -103,7 +105,8 @@ class SizedList
     if @enable_time_based_stats
       now = Time.now
       if @last_evicted_at
-        @total_eviction_time += now - @last_evicted_at
+        @last_time_between_evictions = now - @last_evicted_at
+        @total_eviction_time += @last_time_between_evictions
       end
       @last_evicted_at = now
     end

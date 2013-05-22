@@ -61,6 +61,7 @@ module ActiveSupport
           payload[:eviction] = @sized_list.evicted?
           payload[:total_evictions] = @sized_list.evictions
           payload[:eviction_frequency] = @sized_list.eviction_frequency
+          payload[:last_time_between_evictions] = @sized_list.last_time_between_evictions
         end
       end
 
