@@ -3,23 +3,50 @@ class SizedList
 
   attr_reader :max_size
 
+  # Basic Stats
+  attr_accessor :enable_time_based_stats
+
+  attr_reader :hits,
+              :misses,
+              :writes,
+              :evictions
+
   def initialize(max_size)
     @max_size = max_size
     @used = []
     @items = {}
+    self.reset_stats
+  end
+
+  def reset_stats
+    @hits = 0
+    @misses = 0
+    @writes = 0
+    @evictions = 0
+    @total_eviction_time = 0.0
+    @last_evicted_at = nil
   end
 
   def get(key)
     if value = @items[key]
+      @hits += 1
       used! key
+    else
+      @misses += 1
     end
     value
   end
   alias [] get
 
   def set(key, value)
+    @writes += 1 unless exist?(key)
     @items[key] = value
-    remove_least_recently_used! if @items.size > @max_size
+    if @items.size > @max_size
+      @evicted = true
+      remove_least_recently_used!
+    else
+      @evicted = false
+    end
     used! key
     nil
   end
@@ -43,10 +70,19 @@ class SizedList
     @items.values
   end
 
+  def evicted?
+    !! @evicted
+  end
+
   def exist?(key)
     @items.has_key? key
   end
   alias exists? exist?
+
+  def eviction_frequency
+    return 0.0 unless @enable_time_based_stats && @evictions > 1
+    @total_eviction_time / @evictions
+  end
 
   private
 
@@ -62,6 +98,16 @@ class SizedList
   end
 
   def remove_least_recently_used!
+    @evictions += 1
+
+    if @enable_time_based_stats
+      now = Time.now
+      if @last_evicted_at
+        @total_eviction_time += now - @last_evicted_at
+      end
+      @last_evicted_at = now
+    end
+
     key = @used.pop
     @items.delete key
   end

@@ -8,6 +8,7 @@ module ActiveSupport
       def initialize(options)
         @options = options
         @sized_list = SizedList.new @options[:max_size]
+        @sized_list.enable_time_based_stats = !! @options[:enable_time_based_stats]
       end
 
       # Silence the logger.
@@ -57,6 +58,9 @@ module ActiveSupport
       def write(name, value, options=nil)
         instrument(:write, name, options) do |payload|
           @sized_list[name] = value
+          payload[:eviction] = @sized_list.evicted?
+          payload[:total_evictions] = @sized_list.evictions
+          payload[:eviction_frequency] = @sized_list.eviction_frequency
         end
       end
 
