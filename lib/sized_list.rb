@@ -54,6 +54,13 @@ class SizedList
   end
   alias []= set
 
+  def delete(key)
+    if self.exist?(key)
+      @used.reject! { |k| k == key }
+      @items.delete key
+    end
+  end
+
   def each
     @items.each do |k, v|
       yield v

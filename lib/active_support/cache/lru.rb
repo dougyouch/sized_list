@@ -72,7 +72,7 @@ module ActiveSupport
       end
 
       def delete(name, options=nil)
-        raise 'not implemented'
+        @sized_list.delete name
       end
 
       def read_multi(*names)
