@@ -97,7 +97,7 @@ module ActiveSupport
         end
       end
 
-      def reset
+      def reset(options={})
         @sized_list = SizedList.new @options[:max_size]
       end
       alias clear reset
