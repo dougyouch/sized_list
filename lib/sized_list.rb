@@ -14,7 +14,6 @@ class SizedList
 
   def initialize(max_size)
     @max_size = max_size
-    @used = []
     @items = {}
     self.reset_stats
   end
@@ -55,10 +54,7 @@ class SizedList
   alias []= set
 
   def delete(key)
-    if self.exist?(key)
-      @used.reject! { |k| k == key }
-      @items.delete key
-    end
+    @items.delete key
   end
 
   def each
@@ -72,7 +68,7 @@ class SizedList
   end
 
   def keys
-    @used
+    @items.keys
   end
 
   def values
@@ -95,15 +91,10 @@ class SizedList
 
   private
 
+  # Bump the specified k/v pair to the end of the list,
+  # marking it as least-recently-used.
   def used!(key)
-    if @used.first == key
-      # no-op
-    elsif @used.last == key
-      @used.unshift @used.pop
-    else
-      @used.reject! { |k| k == key }
-      @used.unshift key
-    end
+    @items[key] = @items.delete(key)
   end
 
   def remove_least_recently_used!
@@ -118,7 +109,6 @@ class SizedList
       @last_evicted_at = now
     end
 
-    key = @used.pop
-    @items.delete key
+    @items.delete @items.first[0]
   end
 end

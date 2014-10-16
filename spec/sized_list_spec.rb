@@ -18,17 +18,17 @@ describe SizedList do
     list['c'] = 1
     list['d'] = 1
     list['e'] = 1
-    list.keys.should == ['e', 'd', 'c', 'b', 'a']
+    list.keys.should == ['a', 'b', 'c', 'd', 'e']
 
     list['b'].should == 1
-    list.keys.should == ['b', 'e', 'd', 'c', 'a']
+    list.keys.should == ['a', 'c', 'd', 'e', 'b']
     list.evictions.should == 0
     list.misses.should == 0
     list.hits.should == 1
     list.writes.should == 5
 
     list['b'].should == 1
-    list.keys.should == ['b', 'e', 'd', 'c', 'a']
+    list.keys.should == ['a', 'c', 'd', 'e', 'b']
     list.evictions.should == 0
     list.misses.should == 0
     list.hits.should == 2
@@ -47,27 +47,27 @@ describe SizedList do
     list['c'] = 1
     list['d'] = 1
     list['e'] = 1
-    list.keys.should == ['e', 'd', 'c', 'b', 'a']
+    list.keys.should == ['a', 'b', 'c', 'd', 'e']
     list.writes.should == 5
 
     list['a'].should == 1
-    list.keys.should == ['a', 'e', 'd', 'c', 'b']
+    list.keys.should == ['b', 'c', 'd', 'e', 'a']
     list.evictions.should == 0
 
     list['new'] = 1
     list.evicted?.should be_true
     list['new'] = 1
     list.evicted?.should be_false
-    list.keys.should == ['new', 'a', 'e', 'd', 'c']
+    list.keys.should == ['c', 'd', 'e', 'a', 'new']
     list.evictions.should == 1
     list.writes.should == 6
 
     list['d'].should == 1
-    list.keys.should == ['d', 'new', 'a', 'e', 'c']
+    list.keys.should == ['c', 'e', 'a', 'new', 'd']
     list.evictions.should == 1
 
     list['new2'] = 1
-    list.keys.should == ['new2', 'd', 'new', 'a', 'e']
+    list.keys.should == ['e', 'a', 'new', 'd', 'new2']
     list.evictions.should == 2
   end
 end
